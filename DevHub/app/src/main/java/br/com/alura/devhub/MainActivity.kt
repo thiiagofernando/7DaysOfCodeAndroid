@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import br.com.alura.devhub.ui.theme.DevHubTheme
 
 class MainActivity : ComponentActivity() {
@@ -63,9 +64,10 @@ fun ExibirImagem(){
                                    )
                                ).height(boxHeight)
         ){
-            Image(
-                painter = painterResource(id = R.drawable.naruto),
+            AsyncImage(
+                "https://avatars.githubusercontent.com/u/6673080?v=4",
                 contentDescription = stringResource(R.string.foto_perfil),
+                placeholder = painterResource(R.drawable.user_placeholder),
                 modifier =  Modifier
                     .offset(y = imageHeight / 2)
                     .size(imageHeight)
