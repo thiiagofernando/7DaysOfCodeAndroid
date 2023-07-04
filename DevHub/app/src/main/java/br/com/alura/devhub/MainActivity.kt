@@ -26,11 +26,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import android.util.Log
+import androidx.lifecycle.lifecycleScope
+import br.com.alura.devhub.webclient.RetrofitInit
+import kotlinx.coroutines.launch
 import br.com.alura.devhub.ui.theme.DevHubTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val usuario = "thiiagofernando"
+        lifecycleScope.launch {
+            RetrofitInit().gitHubService.buscarPerfil(usuario)
+                .let {
+                    Log.i("MainActivity","onCreate: $it")
+                }
+        }
         setContent {
             DevHubTheme {
                 // A surface container using the 'background' color from the theme
@@ -45,7 +56,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
 @Composable
 fun ExibirImagem(){
     Column() {
@@ -56,19 +66,21 @@ fun ExibirImagem(){
             boxHeight
         }
         Box(
-            modifier = Modifier.fillMaxWidth()
-                               .background(
-                                   Color(0xFF2d333b), shape =  RoundedCornerShape(
-                                       bottomStart = 16.dp,
-                                       bottomEnd = 16.dp
-                                   )
-                               ).height(boxHeight)
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    Color(0xFF2d333b), shape = RoundedCornerShape(
+                        bottomStart = 16.dp,
+                        bottomEnd = 16.dp
+                    )
+                )
+                .height(boxHeight)
         ){
             AsyncImage(
                 "https://avatars.githubusercontent.com/u/6673080?v=4",
                 contentDescription = stringResource(R.string.foto_perfil),
                 placeholder = painterResource(R.drawable.user_placeholder),
-                modifier =  Modifier
+                modifier = Modifier
                     .offset(y = imageHeight / 2)
                     .size(imageHeight)
                     .align(Alignment.BottomCenter)
